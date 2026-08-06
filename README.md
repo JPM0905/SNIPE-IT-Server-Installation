@@ -2,7 +2,7 @@
 
 A step-by-step guide for deploying and configuring Snipe-IT on Windows Server using IIS, PHP, Composer, MariaDB, and FastCGI.
 
-images/snipeit-preflight-check.png
+[images/snipeit-preflight-check.png](https://github.com/JPM0905/SNIPE-IT-Server-Installation/blob/9724d88e288a268179723f8864d4ddbbfd3aaa41/image/snipeit-preflight-check.png)
 
 ---
 
@@ -52,7 +52,7 @@ The following components were installed before deploying Snipe-IT:
 
 ## PHP Version Verification
 
-images/php-version.png
+[images/php-version.png](https://github.com/JPM0905/SNIPE-IT-Server-Installation/blob/9724d88e288a268179723f8864d4ddbbfd3aaa41/image/php-version.png)
 
 Verify installation:
 
@@ -64,7 +64,7 @@ php -v
 
 ## PHP Configuration
 
-images/php-configuration.png
+[images/php-configuration.png](https://github.com/JPM0905/SNIPE-IT-Server-Installation/blob/9724d88e288a268179723f8864d4ddbbfd3aaa41/image/php-configuration.png)
 
 Verify configuration file:
 
@@ -92,7 +92,7 @@ extension=zip
 
 ## PHP Modules
 
-images/php-modules.png
+[images/php-modules.png](https://github.com/JPM0905/SNIPE-IT-Server-Installation/blob/9724d88e288a268179723f8864d4ddbbfd3aaa41/image/php-modules.png)
 
 Verify PHP modules:
 
@@ -106,7 +106,7 @@ php -m
 
 ## Composer Verification
 
-images/composer.png
+[images/composer.png](https://github.com/JPM0905/SNIPE-IT-Server-Installation/blob/9724d88e288a268179723f8864d4ddbbfd3aaa41/image/composer.png)
 
 Verify installation:
 
@@ -126,7 +126,7 @@ composer diagnose
 
 ## Database Verification
 
-images/mysql.png
+[images/mysql.png](https://github.com/JPM0905/SNIPE-IT-Server-Installation/blob/9724d88e288a268179723f8864d4ddbbfd3aaa41/image/mysql.png)
 
 Login to MariaDB:
 
@@ -306,8 +306,7 @@ iisreset
 
 Before completing setup, verify all checks pass.
 
-![Preflighteit-preflight-check.png
-
+https://github.com/JPM0905/SNIPE-IT-Server-Installation/blob/9724d88e288a268179723f8864d4ddbbfd3aaa41/image/snipeit-preflight-check.png
 Expected result:
 
 ```text
