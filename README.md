@@ -2,7 +2,6 @@
 
 A step-by-step guide for deploying and configuring Snipe-IT on Windows Server using IIS, PHP, Composer, MariaDB, and FastCGI.
 
-<img src="image/Windows-Specification.png"
 ![image_alt](https://github.com/JPM0905/SNIPE-IT-Server-Installation/blob/1a8a1c0294b0dc78c1b5ed2f37aa04ccf06ed9da/image/Windows-Specification.png)
 ---
 
@@ -51,8 +50,7 @@ The following components were installed before deploying Snipe-IT:
 # PHP Installation & Configuration
 
 ## PHP Version Verification
-
-[images/php-version.png](https://github.com/JPM0905/SNIPE-IT-Server-Installation/blob/9724d88e288a268179723f8864d4ddbbfd3aaa41/image/php-version.png)
+![image_alt](https://github.com/JPM0905/SNIPE-IT-Server-Installation/blob/9724d88e288a268179723f8864d4ddbbfd3aaa41/image/php-version.png)
 
 Verify installation:
 
@@ -64,7 +62,7 @@ php -v
 
 ## PHP Configuration
 
-[images/php-configuration.png](https://github.com/JPM0905/SNIPE-IT-Server-Installation/blob/9724d88e288a268179723f8864d4ddbbfd3aaa41/image/php-configuration.png)
+![image_alt](https://github.com/JPM0905/SNIPE-IT-Server-Installation/blob/9724d88e288a268179723f8864d4ddbbfd3aaa41/image/php-configuration.png)
 
 Verify configuration file:
 
@@ -92,7 +90,7 @@ extension=zip
 
 ## PHP Modules
 
-[images/php-modules.png](https://github.com/JPM0905/SNIPE-IT-Server-Installation/blob/9724d88e288a268179723f8864d4ddbbfd3aaa41/image/php-modules.png)
+![image_alt](https://github.com/JPM0905/SNIPE-IT-Server-Installation/blob/9724d88e288a268179723f8864d4ddbbfd3aaa41/image/php-modules.png)
 
 Verify PHP modules:
 
@@ -106,7 +104,7 @@ php -m
 
 ## Composer Verification
 
-[images/composer.png](https://github.com/JPM0905/SNIPE-IT-Server-Installation/blob/9724d88e288a268179723f8864d4ddbbfd3aaa41/image/composer.png)
+![image_alt](https://github.com/JPM0905/SNIPE-IT-Server-Installation/blob/9724d88e288a268179723f8864d4ddbbfd3aaa41/image/composer.png)
 
 Verify installation:
 
@@ -126,7 +124,7 @@ composer diagnose
 
 ## Database Verification
 
-[images/mysql.png](https://github.com/JPM0905/SNIPE-IT-Server-Installation/blob/9724d88e288a268179723f8864d4ddbbfd3aaa41/image/mysql.png)
+![image_alt](https://github.com/JPM0905/SNIPE-IT-Server-Installation/blob/9724d88e288a268179723f8864d4ddbbfd3aaa41/image/mysql.png)
 
 Login to MariaDB:
 
@@ -306,7 +304,7 @@ iisreset
 
 Before completing setup, verify all checks pass.
 
-https://github.com/JPM0905/SNIPE-IT-Server-Installation/blob/9724d88e288a268179723f8864d4ddbbfd3aaa41/image/snipeit-preflight-check.png
+![image_alt](https://github.com/JPM0905/SNIPE-IT-Server-Installation/blob/9724d88e288a268179723f8864d4ddbbfd3aaa41/image/snipeit-preflight-check.png)
 Expected result:
 
 ```text
