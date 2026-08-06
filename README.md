@@ -1,47 +1,58 @@
 # Snipe-IT Server Installation
 
-A step-by-step guide for deploying Snipe-IT on a Windows Server VM using IIS, PHP, MariaDB, and FastCGI.
+A step-by-step guide for deploying and configuring Snipe-IT on Windows Server using IIS, PHP, Composer, MariaDB, and FastCGI.
 
-## Environment
-
-| Component | Value |
-|------------|---------|
-| OS | Windows Server 2022 Standard |
-| Version | 21H2 |
-| Build | 20348.5386 |
-| Virtualization | VMware |
-| Remote Access | RDCMan |
-| Web Server | IIS |
-| PHP Version | 8.5.9 (NTS) |
-| Database | MariaDB |
-| Composer | 2.x |
-| Source Control | Git |
+images/snipeit-preflight-check.png
 
 ---
 
-## Prerequisites
+# Project Overview
 
-Install the following dependencies:
+This repository documents the complete deployment process for a self-hosted Snipe-IT Asset Management System running on a Windows Server virtual machine.
 
-- PHP
+## Objectives
+
+- Deploy Snipe-IT using IIS
+- Configure PHP FastCGI
+- Configure MariaDB database
+- Create a production-ready asset management environment
+- Allow network access through a custom IIS port
+
+---
+
+# Environment
+
+## Windows Server Specification
+
+![Windows Specification](images/Windows Host Environment
+
+- Windows Server 2022 Standard
+- Version 21H2
+- Build 20348.5386
+- Hosted on VMware
+- Managed through RDCMan
+
+---
+
+# Dependencies
+
+The following components were installed before deploying Snipe-IT:
+
+- IIS (Internet Information Services)
+- PHP 8.5.9 (NTS)
 - Composer
-- IIS
-- MariaDB/MySQL
+- MariaDB
 - Git
 - Chocolatey
 - IIS URL Rewrite Module
 
 ---
 
-## Installation Steps
+# PHP Installation & Configuration
 
-### 1. Install PHP
+## PHP Version Verification
 
-Using Chocolatey:
-
-```cmd
-choco install php -y
-```
+images/php-version.png
 
 Verify installation:
 
@@ -49,23 +60,19 @@ Verify installation:
 php -v
 ```
 
-Expected output:
-
-```text
-PHP 8.5.x
-```
-
 ---
 
-### 2. Configure PHP Extensions
+## PHP Configuration
 
-Edit:
+images/php-configuration.png
 
-```text
-C:\tools\php85\php.ini
+Verify configuration file:
+
+```cmd
+php --ini
 ```
 
-Enable:
+Enabled extensions:
 
 ```ini
 extension=bcmath
@@ -81,7 +88,13 @@ extension=sodium
 extension=zip
 ```
 
-Verify:
+---
+
+## PHP Modules
+
+images/php-modules.png
+
+Verify PHP modules:
 
 ```cmd
 php -m
@@ -89,13 +102,19 @@ php -m
 
 ---
 
-### 3. Install Composer
+# Composer
+
+## Composer Verification
+
+images/composer.png
+
+Verify installation:
 
 ```cmd
-choco install composer -y
+composer -V
 ```
 
-Verify:
+Validate environment:
 
 ```cmd
 composer diagnose
@@ -103,7 +122,17 @@ composer diagnose
 
 ---
 
-### 4. Install MariaDB
+# MariaDB Configuration
+
+## Database Verification
+
+images/mysql.png
+
+Login to MariaDB:
+
+```cmd
+mysql -u root
+```
 
 Create database:
 
@@ -126,7 +155,9 @@ FLUSH PRIVILEGES;
 
 ---
 
-### 5. Download Snipe-IT
+# Download Snipe-IT
+
+Clone repository:
 
 ```cmd
 cd C:\inetpub\wwwroot
@@ -136,17 +167,25 @@ git clone https://github.com/grokability/snipe-it.git
 
 ---
 
-### 6. Install Dependencies
+# Install Dependencies
+
+Navigate to installation folder:
 
 ```cmd
 cd C:\inetpub\wwwroot\snipe-it
+```
 
+Install dependencies:
+
+```cmd
 composer install --no-dev --prefer-dist
 ```
 
 ---
 
-### 7. Create Environment File
+# Application Configuration
+
+Create environment file:
 
 ```cmd
 copy .env.example .env
@@ -158,11 +197,7 @@ Generate application key:
 php artisan key:generate
 ```
 
----
-
-### 8. Configure Database Connection
-
-Edit `.env`:
+Update:
 
 ```env
 APP_URL=http://192.168.1.10:8080
@@ -177,61 +212,61 @@ DB_PASSWORD=
 
 ---
 
-### 9. Run Database Migrations
+# Database Migration
+
+Execute migrations:
 
 ```cmd
 php artisan migrate --force
 ```
 
----
-
-### 10. Create Storage Link
+Create storage symlink:
 
 ```cmd
 php artisan storage:link
 ```
 
+Clear Laravel cache:
+
+```cmd
+php artisan optimize:clear
+```
+
 ---
 
-## IIS Configuration
+# IIS Configuration
 
-### Create Website
-
-Site Name:
+## Website Settings
 
 ```text
-Snipe-IT
-```
+Site Name: Snipe-IT
 
 Physical Path:
-
-```text
 C:\inetpub\wwwroot\snipe-it\public
-```
 
 Binding:
-
-```text
-http
-Port: 8080
+http://*:8080
 ```
 
 ---
 
-### Application Pool
+## Application Pool
 
-Use:
+Recommended settings:
 
 ```text
-.NET CLR Version: No Managed Code
-Managed Pipeline Mode: Integrated
+.NET CLR Version:
+No Managed Code
+
+Managed Pipeline Mode:
+Integrated
 ```
 
 ---
 
-## Enable PHP FastCGI
+# FastCGI Configuration
 
-Register FastCGI:
+Register PHP FastCGI:
 
 ```cmd
 %windir%\System32\inetsrv\appcmd.exe set config /section:system.webServer/fastCgi /+"[fullPath='C:\tools\php85\php-cgi.exe']"
@@ -251,31 +286,9 @@ iisreset
 
 ---
 
-## Folder Permissions
+# URL Rewrite
 
-Grant write permissions:
-
-```cmd
-icacls "C:\inetpub\wwwroot\snipe-it\storage" /grant IIS_IUSRS:(OI)(CI)F /T
-```
-
-```cmd
-icacls "C:\inetpub\wwwroot\snipe-it\storage" /grant IUSR:(OI)(CI)F /T
-```
-
-```cmd
-icacls "C:\inetpub\wwwroot\snipe-it\bootstrap\cache" /grant IIS_IUSRS:(OI)(CI)F /T
-```
-
-```cmd
-icacls "C:\inetpub\wwwroot\snipe-it\bootstrap\cache" /grant IUSR:(OI)(CI)F /T
-```
-
----
-
-## URL Rewrite
-
-Install URL Rewrite Module:
+Install URL Rewrite:
 
 ```cmd
 choco install urlrewrite -y
@@ -289,21 +302,23 @@ iisreset
 
 ---
 
-## Accessing Snipe-IT
+# Preflight Validation
 
-Local access:
+Before completing setup, verify all checks pass.
 
-```text
-http://localhost:8080
-```
+![Preflighteit-preflight-check.png
 
-Remote access:
+Expected result:
 
 ```text
-http://<SERVER-IP>:8080
+All checks passed
 ```
 
-Example:
+---
+
+# Final Deployment
+
+After successful configuration and administrator account creation, Snipe-IT becomes accessible through:
 
 ```text
 http://192.168.1.10:8080
@@ -311,29 +326,9 @@ http://192.168.1.10:8080
 
 ---
 
-## Firewall Rule
+# Troubleshooting
 
-Allow inbound TCP 8080:
-
-```cmd
-netsh advfirewall firewall add rule name="SnipeIT-8080" dir=in action=allow protocol=TCP localport=8080
-```
-
----
-
-## Troubleshooting
-
-### PHP Startup: Unable to load dynamic library
-
-Verify required extensions exist and are enabled in:
-
-```text
-C:\tools\php85\php.ini
-```
-
----
-
-### HTTP 500.19
+## HTTP 500.19
 
 Cause:
 
@@ -341,7 +336,7 @@ Cause:
 Missing IIS URL Rewrite Module
 ```
 
-Fix:
+Solution:
 
 ```cmd
 choco install urlrewrite -y
@@ -349,53 +344,50 @@ choco install urlrewrite -y
 
 ---
 
-### HTTP 403.14 Forbidden
+## HTTP 403.14
 
 Cause:
 
 ```text
-PHP/FastCGI not configured
+PHP/FastCGI Handler Not Configured
 ```
 
-Fix:
+Solution:
 
-Register FastCGI and PHP handler mappings.
+Register FastCGI and PHP handlers.
 
 ---
 
-### Permission denied: laravel.log
+## Permission Denied (laravel.log)
 
-Cause:
+Solution:
 
-```text
-IIS user lacks write permission
+```cmd
+icacls "C:\inetpub\wwwroot\snipe-it\storage" /grant IIS_IUSRS:(OI)(CI)F /T
 ```
 
-Fix:
-
-Apply `icacls` permissions to:
-
-```text
-storage
-bootstrap\cache
+```cmd
+icacls "C:\inetpub\wwwroot\snipe-it\bootstrap\cache" /grant IIS_IUSRS:(OI)(CI)F /T
 ```
 
 ---
 
-## Final Result
+# Result
 
-Snipe-IT successfully deployed and accessible through:
+✅ PHP Installed
 
-```text
-http://192.168.1.10:8080
-```
+✅ Composer Installed
 
-with:
+✅ MariaDB Configured
 
-- IIS
-- PHP 8.5
-- MariaDB
-- Composer
-- FastCGI
-- URL Rewrite
-- Laravel Storage Links
+✅ IIS Configured
+
+✅ FastCGI Registered
+
+✅ URL Rewrite Installed
+
+✅ Laravel Migrations Completed
+
+✅ Snipe-IT Successfully Deployed
+
+✅ Accessible via HTTP Port 8080
