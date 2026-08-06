@@ -3,6 +3,7 @@
 A step-by-step guide for deploying and configuring Snipe-IT on Windows Server using IIS, PHP, Composer, MariaDB, and FastCGI.
 
 <img src="image/Windows-Specification.png"
+![image_alt](https://github.com/JPM0905/SNIPE-IT-Server-Installation/blob/1a8a1c0294b0dc78c1b5ed2f37aa04ccf06ed9da/image/Windows-Specification.png)
 ---
 
 # Project Overview
